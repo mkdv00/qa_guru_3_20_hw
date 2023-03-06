@@ -1,25 +1,28 @@
+import os
+
 import pytest
 from appium import webdriver
 from appium.options.android import UiAutomator2Options
+from dotenv import load_dotenv
 from selene.support.shared import browser
 
-from config import settings
 from wikipedia.utils import attachments
 
 
 @pytest.fixture
 def browser_config():
+    load_dotenv()
     options = UiAutomator2Options().load_capabilities({
         "platformName": "android",
         "platformVersion": "9.0",
         "deviceName": "Google Pixel 3",
-        "app": settings.app_id,
+        "app": os.getenv('app_id'),
         'bstack:options': {
             "projectName": "Wiki mobile",
             "buildName": "browserstack-build-1-DEMO",
             "sessionName": "BStack session",
-            "userName": settings.bs_username,
-            "accessKey": settings.bs_access_key
+            "userName": os.getenv('bs_username'),
+            "accessKey": os.getenv('bs_access_key')
         }
     })
 
